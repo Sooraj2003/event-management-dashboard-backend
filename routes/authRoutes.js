@@ -23,9 +23,9 @@ router.post('/register', async (req, res) => {
     // Set the token in an HTTP-only cookie
     res.cookie('token', token, {
        
-         // Prevent client-side JS access
+      httpOnly:false,// Prevent client-side JS access
       secure: true, // Use secure cookie in production
-      sameSite: 'None',  // Prevent CSRF attacks
+      sameSite: 'lax',  // Prevent CSRF attacks
       maxAge: 60 * 60 * 1000, // 1 hour
     });
 
@@ -56,9 +56,9 @@ router.post('/login', async (req, res) => {
     // Set the token in an HTTP-only cookie
     res.cookie('token', token, {
       
-      
+      httpOnly:false,
       secure: true,
-      sameSite: 'None',
+      sameSite: 'lax',
       maxAge: 60 * 60 * 1000,
     });
 
@@ -74,7 +74,7 @@ router.post('/logout', (req, res) => {
     res.cookie('token', '', {
       
       expires: new Date(0),
-      sameSite: 'None',
+      sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
     });
 
