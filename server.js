@@ -29,6 +29,8 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Methods you want to allow
   allowedHeaders: ['Content-Type', 'Authorization'], // Headers you want to allow
 }));
+
+app.options('*', cors());
 app.use(express.json());
 
 
