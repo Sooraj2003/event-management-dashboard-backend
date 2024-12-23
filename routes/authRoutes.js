@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
 
     // Set the token in an HTTP-only cookie
     res.cookie('token', token, {
-      httpOnly: true,    // Prevent client-side JS access
+      httpOnly: false,    // Prevent client-side JS access
       secure: true, // Use secure cookie in production
       sameSite: 'None',  // Prevent CSRF attacks
       maxAge: 60 * 60 * 1000, // 1 hour
@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
 
     // Set the token in an HTTP-only cookie
     res.cookie('token', token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: 'None',
       maxAge: 60 * 60 * 1000,
@@ -70,7 +70,7 @@ router.post('/login', async (req, res) => {
 router.post('/logout', (req, res) => {
   try {
     res.cookie('token', '', {
-      httpOnly: true,
+      httpOnly: false,
       expires: new Date(0),
       sameSite: 'None',
       secure: process.env.NODE_ENV === 'production',
