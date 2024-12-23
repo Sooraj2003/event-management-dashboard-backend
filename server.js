@@ -29,9 +29,9 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 
 // Protected Routes
-app.use('/api/events', authMiddleware, eventRoutes);
-app.use('/api/attendees',authMiddleware, attendeeRoutes);
-app.use('/api/tasks',authMiddleware, taskRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/attendees', attendeeRoutes);
+app.use('/api/tasks', taskRoutes);
 
 // Connect to Database
 connectDB();
