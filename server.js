@@ -51,5 +51,6 @@ app.use('/api/tasks', authMiddleware, taskRoutes);
 // Connect to Database
 connectDB();
 
+// Setup the port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
