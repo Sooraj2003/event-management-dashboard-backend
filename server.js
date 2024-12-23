@@ -13,44 +13,41 @@ const app = express();
 
 // Middleware
 app.use(cookieParser());
+// app.use(cors());
+// Define the allowed origins
+const allowedOrigins = ['http://localhost:3000', 'https://your-frontend-url.com']; // Add the appropriate origin here
 
-// Define allowed origins
-const allowedOrigins = ['http://localhost:3000', 'https://your-frontend-url.com']; // Update with your frontend URL
-
-// CORS configuration
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests from allowed origins and no-origin (for mobile apps/Postman)
+// Use CORS middleware
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or Postman)
     if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
     return callback(new Error('Not allowed by CORS'));
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  credentials: true, // Allow credentials (cookies, authorization headers)
-};
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Methods you want to allow
+  allowedHeaders: ['Content-Type', 'Authorization'], // Headers you want to allow
+}));
 
-// Use CORS middleware globally
-app.use(cors(corsOptions));
 
-// Handle preflight OPTIONS requests globally (for all routes)
-app.options('*', cors(corsOptions)); // Ensure preflight requests are handled correctly
-
-// Enable express.json to parse JSON bodies
 app.use(express.json());
+
+
+
+// Enable CORS with Credentials
+
 
 // Public Routes
 app.use('/api/auth', authRoutes);
 
-// Protected Routes (protected with authMiddleware)
+// Protected Routes
 app.use('/api/events', authMiddleware, eventRoutes);
-app.use('/api/attendees', authMiddleware, attendeeRoutes);
-app.use('/api/tasks', authMiddleware, taskRoutes);
+app.use('/api/attendees',authMiddleware, attendeeRoutes);
+app.use('/api/tasks',authMiddleware, taskRoutes);
 
 // Connect to Database
 connectDB();
 
-// Setup the port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
