@@ -22,6 +22,7 @@ router.post('/register', async (req, res) => {
 
     // Set the token in an HTTP-only cookie
     res.cookie('token', token, {
+       domain: 'http://localhost:3000/',
       httpOnly: false,    // Prevent client-side JS access
       secure: true, // Use secure cookie in production
       sameSite: 'None',  // Prevent CSRF attacks
@@ -54,6 +55,7 @@ router.post('/login', async (req, res) => {
 
     // Set the token in an HTTP-only cookie
     res.cookie('token', token, {
+      domain: 'http://localhost:3000/',
       httpOnly: false,
       secure: true,
       sameSite: 'None',
