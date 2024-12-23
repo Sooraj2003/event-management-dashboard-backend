@@ -14,10 +14,21 @@ const app = express();
 // Middleware
 app.use(cookieParser());
 // app.use(cors());
+// Define the allowed origins
+const allowedOrigins = ['http://localhost:3000', 'https://your-frontend-url.com']; // Add the appropriate origin here
+
+// Use CORS middleware
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow frontend origin
-    credentials: true, // Allow credentials (cookies)
-  }));
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Methods you want to allow
+  allowedHeaders: ['Content-Type', 'Authorization'], // Headers you want to allow
+}));
 app.use(express.json());
 
 
